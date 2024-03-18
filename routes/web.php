@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\MemberInfo;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\MemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +18,29 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('welcome');
 });
+
+//Admin
+Route::resource('admins', AdminController::class); 
+
+//Users
+Route::resource('users', MemberController::class);
+
+//Show login form
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+
+//Login
+Route::post('login', [AuthController::class, 'login']);
+
+
+
+
+
+
+
+
+
+
+
+

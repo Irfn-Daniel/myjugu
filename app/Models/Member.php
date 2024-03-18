@@ -2,84 +2,78 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\LLG;
+use App\Models\Clan;
+use App\Models\Ward;
+use App\Models\Subclan;
+use App\Models\Village;
+use App\Models\District;
+use App\Models\Province;
 
-class Member extends Model
+class Member extends Model implements Authenticatable
 {
+    public $timestamps = false;
+    use AuthenticatableTrait;
+    
     use HasFactory;
 
+    protected $table = 'members';
+    protected $primarykey = 'id';
     protected $fillable = [
-        'id',
         'trans',
+        'reg_date',
         'name',
+        'name_title',
+        'name_first',
+        'name_middle',
+        'name_last',
         'nid_number',
-        'id_photo',
+        'photo_id',
+        'photo_url',
         'email',
         'password',
-        'mobile_number',
+        'mobile_num',
         'gender',
         'religion',
-        'date_of_birth',
+        'birth_date',
         'age',
-        'date_of_death',
+        'death_date',
         'education',
         'job_title',
         'employer',
         'postal_address',
         'residential_address',
-        'province_id',
-        'district_id',
-        'llg_id',
-        'ward_id',
-        'village_id',
-        'clan_id',
-        'subclan_id',
-        'sub_subclan_id',
+        'father_name',
+        'father_title',
+        'father_name_first',
+        'father_name_middle',
+        'father_name_last',
+        'mother_name',
+        'mother_title',
+        'mother_name_first',
+        'mother_name_middle',
+        'mother_name_last',
+        'bank_name',
+        'account_name',
+        'account_num',
+        'relationship',
+        'user_roles',
+        'user_status',
+        'jugu_terms',
+        'clan',
+        'subclan',
+        'sub_subclan',
+        'province',
+        'district',
+        'llg',
         'bank_name',
         'account_name',
         'account_number',
-        'relationship',
+        'relationship'       
     ];
-
-    public function province()
-    {
-        return $this->belongsTo(Province::class);
-    }
-
-    public function district()
-    {
-        return $this->belongsTo(District::class);
-    }
-
-    public function llg()
-    {
-        return $this->belongsTo(LLG::class);
-    }
-
-    public function ward()
-    {
-        return $this->belongsTo(Ward::class);
-    }
-
-    public function village()
-    {
-        return $this->belongsTo(Village::class);
-    }
-
-    public function clan()
-    {
-        return $this->belongsTo(Clan::class);
-    }
-
-    public function subclan()
-    {
-        return $this->belongsTo(Subclan::class);
-    }
-
-    public function sub_subclan()
-    {
-        return $this->belongsTo(Sub_subclan::class);
-    }
 
 }
