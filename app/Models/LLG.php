@@ -9,6 +9,8 @@ class LLG extends Model
 {
     use HasFactory;
 
+    protected $table = 'llgs';
+
     protected $fillable = [
         'id',
         'district_id',
