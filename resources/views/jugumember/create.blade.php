@@ -151,7 +151,12 @@
         <div class="col-md-4">
             <div class="form-group">
                 <strong>Province:</strong><span style="color:red;">*</span>
-                <input type="text" name="province" value="{{ old('province') }}" class="form-control" placeholder="Province">
+                <select name="province" id="province" class="form-control">
+                    <option value="">Select Province</option>
+                    @foreach ($provinces as $province)
+                        <option value="{{ $province->id }}">{{ $province->name }}</option>
+                    @endforeach
+                </select>
                 @error('province')
                     <span id="errorMsg" style="color:red;" class="text-red-500 text-xs mt-1">{{$message}}</span>
                 @enderror
@@ -160,7 +165,9 @@
         <div class="col-md-4">
             <div class="form-group">
                 <strong>District:</strong><span style="color:red;">*</span>
-                <input type="text" name="district" value="{{ old('district') }}" class="form-control" placeholder="District">
+                <select name="district" id="district" class="form-control">
+                    <option value="">Select District</option>
+                </select>
                 @error('district')
                     <span id="errorMsg" style="color:red;" class="text-red-500 text-xs mt-1">{{$message}}</span>
                 @enderror
@@ -169,7 +176,9 @@
         <div class="col-md-4">
             <div class="form-group">
                 <strong>LLG:</strong><span style="color:red;">*</span>
-                <input type="text" name="llg" value="{{ old('llg') }}" class="form-control" placeholder="LLG">
+                <select name="llg" id="llg" class="form-control">
+                    <option value="">Select LLG</option>
+                </select>
                 @error('llg')
                     <span id="errorMsg" style="color:red;" class="text-red-500 text-xs mt-1">{{$message}}</span>
                 @enderror
@@ -181,7 +190,9 @@
         <div class="col-md-6">
             <div class="form-group">
                 <strong>Council Ward:</strong><span style="color:red;">*</span>
-                <input type="text" name="ward" value="{{ old('ward') }}" class="form-control" placeholder="Council Ward">
+                <select name="ward" id="ward" class="form-control">
+                    <option value="">Select Ward</option>
+                </select>
                 @error('ward')
                     <span id="errorMsg" style="color:red;" class="text-red-500 text-xs mt-1">{{$message}}</span>
                 @enderror
@@ -190,7 +201,9 @@
         <div class="col-md-6">
             <div class="form-group">
                 <strong>Village:</strong><span style="color:red;">*</span>
-                <input type="text" name="village" value="{{ old('village') }}" class="form-control" placeholder="Village">
+                <select name="village" id="village" class="form-control">
+                    <option value="">Select Village</option>
+                </select>
                 @error('village')
                     <span id="errorMsg" style="color:red;" class="text-red-500 text-xs mt-1">{{$message}}</span>
                 @enderror
@@ -328,4 +341,86 @@
     </div>
    
 </form>
+@push('js')
+<script>
+    $(document).ready(function(){
+        // onchange province
+        $('#province').on('change', function() {
+            const province = $(this).val();
+            const type = "district";
+            if (province == '') {
+                return;
+            }
+            // ajax
+            $.get(`/regions`, {selected: province, type: type}, ({ data }) => {
+                $('#district').empty();
+                $('#llg').empty().append('<option value="">Select LLG</option>');
+                $('#ward').empty().append('<option value="">Select Ward</option>');
+                $('#village').empty().append('<option value="">Select Village</option>');
+
+                let html = '<option value="">Select District</option>';
+                data.forEach(element => {
+                    html += `<option value="${element.id}">${element.name}</option>`
+                })
+                $('#district').append(html);
+            })
+        })
+
+        $('#district').on('change', function() {
+            const district = $(this).val();
+            const type = "llg";
+            if (district == '') {
+                return;
+            }
+            // ajax
+            $.get(`/regions`, {selected: district, type: type}, ({ data }) => {
+                $('#llg').empty();
+                $('#ward').empty().append('<option value="">Select Ward</option>');
+                $('#village').empty().append('<option value="">Select Village</option>');
+
+                let html = '<option value="">Select LLG</option>';
+                data.forEach(element => {
+                    html += `<option value="${element.id}">${element.name}</option>`
+                })
+                $('#llg').append(html);
+            })
+        })
+        $('#llg').on('change', function() {
+            const llg = $(this).val();
+            const type = "ward";
+            if (llg == '') {
+                return;
+            }
+            // ajax
+            $.get(`/regions`, {selected: llg, type: type}, ({ data }) => {
+                $('#ward').empty();
+                $('#village').empty().append('<option value="">Select Village</option>');
+
+                let html = '<option value="">Select Ward</option>';
+                data.forEach(element => {
+                    html += `<option value="${element.id}">${element.name}</option>`
+                })
+                $('#ward').append(html);
+            })
+        })
+        $('#ward').on('change', function() {
+            const ward = $(this).val();
+            const type = "village";
+            if (ward == '') {
+                return;
+            }
+            // ajax
+            $.get(`/regions`, {selected: ward, type: type}, ({ data }) => {
+                $('#village').empty();
+
+                let html = '<option value="">Select Village</option>';
+                data.forEach(element => {
+                    html += `<option value="${element.id}">${element.name}</option>`
+                })
+                $('#village').append(html);
+            })
+        })
+    })
+</script>
+@endpush
 @endsection

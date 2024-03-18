@@ -33,6 +33,7 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 //Login
 Route::post('login', [AuthController::class, 'login']);
 
+Route::get('regions', [AdminController::class, 'getRegions'])->name('get-regions');
 
 
 
