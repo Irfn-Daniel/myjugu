@@ -254,7 +254,13 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <strong>Clan:</strong><span style="color:red;">*</span>
-                    <input type="text" name="clan" value="{{ old('clan') }}" class="form-control" placeholder="Clan">
+                    <select name="clan" id="clan" class="form-control">
+                        <option value="">Select Clan</option>
+                        @foreach ($clans as $clan)
+                            <option value="{{ $clan->id }}">{{ $clan->name }}</option>
+                        @endforeach
+                    </select>
+                    {{-- <input type="text" name="clan" value="{{ old('clan') }}" class="form-control" placeholder="Clan"> --}}
                     @error('clan')
                         <span id="errorMsg" style="color:red;" class="text-red-500 text-xs mt-1">{{$message}}</span>
                     @enderror
@@ -263,7 +269,9 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <strong>Subclan:</strong><span style="color:red;">*</span>
-                    <input type="text" name="subclan" value="{{ old('subclan') }}" class="form-control" placeholder="Subclan">
+                    <select name="subclan" id="subclan" class="form-control">
+                        <option value="">Select Subclan</option>
+                    </select>                    
                     @error('subclan')
                         <span id="errorMsg" style="color:red;" class="text-red-500 text-xs mt-1">{{$message}}</span>
                     @enderror
@@ -272,7 +280,12 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <strong>Sub subclan:</strong>
-                    <input type="text" name="sub_subclan" value="{{ old('sub_subclan') }}" class="form-control" placeholder="Sub subclan">
+                    <select name="sub_subclan" id="sub_subclan" class="form-control">
+                        <option value="">Select Sub Subclan</option>
+                    </select>     
+                    @error('sub_subclan')
+                        <span id="errorMsg" style="color:red;" class="text-red-500 text-xs mt-1">{{$message}}</span>
+                    @enderror           
                 </div>
             </div>
         </div>
@@ -420,7 +433,42 @@
                 $('#village').append(html);
             })
         })
-    })
+        $('#clan').on('change', function() {
+            const clan = $(this).val();
+            const type = "subclan";
+            if (clan == '') {
+                return;
+            }
+            // AJAX request to get subclans based on selected clan
+            $.get(`/clans`, {selected: clan, type: type}, ({ data }) => {
+                $('#subclan').empty();
+                $('#sub_subclan').empty().append('<option value="">Select sub subclan</option>');
+
+                let html = '<option value="">Select Subclan</option>';
+                data.forEach(element => {
+                    html += `<option value="${element.id}">${element.name}</option>`
+                })
+                $('#subclan').append(html);
+            })
+        })
+        $('#subclan').on('change', function() {
+            const subclan = $(this).val();
+            const type = "sub_subclan";
+            if (subclan == '') {
+                return;
+            }
+            // AJAX request to get subclans based on selected clan
+            $.get(`/clans`, {selected: subclan, type: type}, ({ data }) => {
+                $('#sub_subclan').empty();
+
+                let html = '<option value="">Select Sub_subclan</option>';
+                data.forEach(element => {
+                    html += `<option value="${element.id}">${element.name}</option>`
+                })
+                $('#sub_subclan').append(html);
+            })
+        })
+    });
 </script>
 @endpush
 @endsection

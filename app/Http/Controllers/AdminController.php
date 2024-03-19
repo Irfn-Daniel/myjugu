@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\District;
 use App\Models\LLG;
-use App\Models\Member;
-use App\Models\Province;
-use App\Models\Village;
+use App\Models\Clan;
 use App\Models\Ward;
+use App\Models\Member;
+use App\Models\Village;
+use App\Models\District;
+use App\Models\Province;
+use App\Models\Sub_subclan;
+use App\Models\Subclan;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 
 class AdminController extends Controller
 {
@@ -19,14 +22,8 @@ class AdminController extends Controller
      */
     public function index(): View
     {
-       /*  $members = Member::select('id', 'name', 'email', 'subclan', 'sub_subclan')
-        ->paginate(5);
-    
-        return view('jugumember.index', compact('members'))
-        ->with('i', (request()->input('page', 1) - 1) * 5); */
-
-        $members = Member::select('id', 'name', 'email', 'subclan', 'sub_subclan')->paginate(5); // Paginate with 5 items per page
-    return view('jugumember.index', compact('members'));
+        $members = Member::select('id', 'name', 'email', 'subclan', 'sub_subclan')->paginate(10); // Paginate with 10 items per page
+        return view('jugumember.index', compact('members'));
     }
 
     /**
@@ -35,7 +32,8 @@ class AdminController extends Controller
     public function create()
     {
         $provinces = Province::all();
-        return view('jugumember.create', compact('provinces'));
+        $clans = Clan::all();
+        return view('jugumember.create', compact('provinces', 'clans'));
     }
 
     /**
@@ -43,14 +41,14 @@ class AdminController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $member=new Member;
+        $member = new Member;
         //dd($request->all());
-         $request->validate([
+        $request->validate([
             'reg_date' => 'required|date',
             'name_first' => 'required|string',
             // 'name_middle' => 'required|string',
             'name_last' => 'required|string',
-            'nid_number' => 'nullable|string',  
+            'nid_number' => 'nullable|string',
             'email' => 'required|email',
             // 'password' => 'required|min:3', 
             // 'confirm_password' => 'required|same:password',  
@@ -64,18 +62,18 @@ class AdminController extends Controller
             'employer' => 'nullable|string',
             'postal_address' => 'nullable|string',
             'residential_address' => 'required|string',
-            'province' => 'required|string',  
-            'district' => 'required|string',  
-            'llg' => 'required|string',   
-            'ward' => 'required|string',  
-            'village' => 'required|string',  
+            'province' => 'required|string',
+            'district' => 'required|string',
+            'llg' => 'required|string',
+            'ward' => 'required|string',
+            'village' => 'required|string',
             'father_name_first' => 'required|string',
             'father_name_last' => 'required|string',
             'mother_name_first' => 'required|string',
             'mother_name_last' => 'required|string',
-            'clan' => 'required|string',   
-            'subclan' => 'required|string',  
-            'sub_subclan' => 'nullable|string',  
+            'clan' => 'required|string',
+            'subclan' => 'required|string',
+            'sub_subclan' => 'nullable|string',
             'bank_name' => 'nullable|string',
             'account_name' => 'nullable|string',
             'account_num' => 'nullable|string',
@@ -94,44 +92,44 @@ class AdminController extends Controller
             // 'user_roles' => 'nullable|string',
             // 'user_status' => 'nullable|string',
         ]);
-            $member->reg_date = $request->reg_date;
-            $member->name_first = $request->name_first;
-            $member->name_last = $request->name_last;
-            $member->nid_number = $request->nid_number;
-            $member->email = $request->email;
-            $member->mobile_num = $request->mobile_num;
-            $member->gender = $request->gender;
-            $member->religion = $request->religion;
-            $member->birth_date = $request->birth_date;
-            $member->death_date = $request->death_date;
-            $member->education = $request->education;
-            $member->job_title = $request->job_title;
-            $member->postal_address = $request->postal_address;
-            $member->residential_address = $request->residential_address;
-            $member->province = $request->province;
-            $member->district = $request->district;
-            $member->llg = $request->llg;
-            $member->ward = $request->ward;
-            $member->village = $request->village;
-            $member->father_name_first = $request->father_name_first;
-            $member->father_name_last = $request->father_name_last;
-            $member->mother_name_first = $request->mother_name_first;
-            $member->mother_name_last = $request->mother_name_last;
-            $member->clan = $request->clan;
-            $member->subclan = $request->subclan;
-            $member->sub_subclan = $request->sub_subclan;
-            $member->bank_name = $request->bank_name;
-            $member->account_name = $request->account_name;
-            $member->account_num = $request->account_num;
-            $member->relationship = $request->relationship;
-            $member->recorder = $request->recorder;
-            $member->verified = $request->verified;
-            $member->checked = $request->checked;
-            $member->witness = $request->witness;
+        $member->reg_date = $request->reg_date;
+        $member->name_first = $request->name_first;
+        $member->name_last = $request->name_last;
+        $member->nid_number = $request->nid_number;
+        $member->email = $request->email;
+        $member->mobile_num = $request->mobile_num;
+        $member->gender = $request->gender;
+        $member->religion = $request->religion;
+        $member->birth_date = $request->birth_date;
+        $member->death_date = $request->death_date;
+        $member->education = $request->education;
+        $member->job_title = $request->job_title;
+        $member->postal_address = $request->postal_address;
+        $member->residential_address = $request->residential_address;
+        $member->province = $request->province;
+        $member->district = $request->district;
+        $member->llg = $request->llg;
+        $member->ward = $request->ward;
+        $member->village = $request->village;
+        $member->father_name_first = $request->father_name_first;
+        $member->father_name_last = $request->father_name_last;
+        $member->mother_name_first = $request->mother_name_first;
+        $member->mother_name_last = $request->mother_name_last;
+        $member->clan = $request->clan;
+        $member->subclan = $request->subclan;
+        $member->sub_subclan = $request->sub_subclan;
+        $member->bank_name = $request->bank_name;
+        $member->account_name = $request->account_name;
+        $member->account_num = $request->account_num;
+        $member->relationship = $request->relationship;
+        $member->recorder = $request->recorder;
+        $member->verified = $request->verified;
+        $member->checked = $request->checked;
+        $member->witness = $request->witness;
 
-            $member->save();
+        $member->save();
 
-            return redirect()->back()->with('message','Member Added Successfully!');
+        return redirect()->back()->with('message', 'Member Added Successfully!');
     }
 
     /**
@@ -165,8 +163,8 @@ class AdminController extends Controller
             'name_first' => 'required|string',
             'name_middle' => 'required|string',
             'name_last' => 'required|string',
-            'nid_number' => 'nullable|string',  
-            'email' => 'required|email', 
+            'nid_number' => 'nullable|string',
+            'email' => 'required|email',
             'mobile_num' => 'nullable|string',
             'gender' => 'required|in:male,female,other',
             'religion' => 'nullable|string',
@@ -177,18 +175,18 @@ class AdminController extends Controller
             'employer' => 'nullable|string',
             'postal_address' => 'nullable|string',
             'residential_address' => 'required|string',
-            'province' => 'required|string',  
-            'district' => 'required|string',  
-            'llg' => 'required|string',   
-            'ward' => 'required|string',  
-            'village' => 'required|string',  
+            'province' => 'required|string',
+            'district' => 'required|string',
+            'llg' => 'required|string',
+            'ward' => 'required|string',
+            'village' => 'required|string',
             'father_name_first' => 'required|string',
             'father_name_last' => 'required|string',
             'mother_name_first' => 'required|string',
             'mother_name_last' => 'required|string',
-            'clan' => 'required|string',   
-            'subclan' => 'required|string',  
-            'sub_subclan' => 'nullable|string',  
+            'clan' => 'required|string',
+            'subclan' => 'required|string',
+            'sub_subclan' => 'nullable|string',
             'bank_name' => 'nullable|string',
             'account_name' => 'nullable|string',
             'account_num' => 'nullable|string',
@@ -198,7 +196,7 @@ class AdminController extends Controller
             'checked' => 'nullable|string',
             'witness' => 'nullable|string',
         ]);
-    
+
         $member->reg_date = $request->reg_date;
         $member->name_first = $request->name_first;
         $member->name_middle = $request->name_middle;
@@ -234,9 +232,9 @@ class AdminController extends Controller
         $member->verified = $request->verified;
         $member->checked = $request->checked;
         $member->witness = $request->witness;
-    
+
         $member->save();
-    
+
         return redirect()->back()->with('message', 'Member Updated Successfully!');
     }
 
@@ -246,10 +244,13 @@ class AdminController extends Controller
     public function destroy(string $id)
     {
         Member::destroy($id);
-        return redirect('jugumember')->with('flash_message', 'Member deleted');
+        // Flash a success message to the session
+        session()->flash('message', 'User deleted successfully.');
+        return redirect()->route('member.dashboard');
     }
 
-    public function getRegions(Request $request) {
+    public function getRegions(Request $request)
+    {
         $type = $request->input('type');
         $selected = $request->input('selected');
         try {
@@ -282,7 +283,7 @@ class AdminController extends Controller
                     'message' => "Data found"
                 ]);
             }
-            
+
             return response()->json([
                 'status' => false,
                 'message' => "Data not found",
@@ -295,8 +296,40 @@ class AdminController extends Controller
                 'data' => []
             ], 500);
         }
-        
     }
 
-    
+    public function getClans(Request $request)
+    {
+        $type = $request->input('type');
+        $selected = $request->input('selected');
+        try {
+            if ($type == 'subclan') {
+                $subclans = Subclan::where('clan_id', $selected)->get(['id', 'name']);
+                return response()->json([
+                    'status' => true,
+                    'data' => $subclans,
+                    'message' => "Data found"
+                ]);
+            } else if ($type == 'sub_subclan') {
+                $sub_subclans = Sub_subclan::where('subclan_id', $selected)->get(['id', 'name']);
+                return response()->json([
+                    'status' => true,
+                    'data' => $sub_subclans,
+                    'message' => "Data found"
+                ]);
+            }
+
+            return response()->json([
+                'status' => false,
+                'message' => "Data not found",
+                'data' => []
+            ], 404);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => "Data not found. " . $th->getMessage(),
+                'data' => []
+            ], 500);
+        }
+    }
 }

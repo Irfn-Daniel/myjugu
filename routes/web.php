@@ -35,6 +35,10 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::get('regions', [AdminController::class, 'getRegions'])->name('get-regions');
 
+Route::get('clans', [AdminController::class, 'getClans'])->name('get-clans');
+
+Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+Route::get('/member/dashboard', [MemberController::class, 'index'])->name('member.dashboard');
 
 
 

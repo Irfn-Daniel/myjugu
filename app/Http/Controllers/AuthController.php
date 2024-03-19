@@ -18,33 +18,17 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        // if (Auth::guard('web')->attempt($credentials)) {
-        //     // Authentication passed
-        //     return redirect()->intended('/');
-            
-        // }
-
-
         if (Auth::guard('web')->attempt($credentials)) {
             // Authentication passed
             $user = Auth::user();            
-            //dd($user->toArray());
-            // if ($user->user_roles === 'Member') {
 
-            //     $members = Member::all();
-            //     return view('index', ['members' => $members]);
-            //     //return view('index');
-
-            // } elseif ($user->user_roles === 'Admin') {
-            //     return view('admin');
-            // }
             if ($user->user_roles === 'Admin') {
                 // Paginate members data before passing it to the view
-                $members = Member::select('id', 'name', 'email', 'subclan', 'sub_subclan')->paginate(5);
-                return view('jugumember.index', compact('members'));
+                $members = Member::select('id', 'name', 'email', 'subclan', 'sub_subclan')->paginate(10);
+                return redirect()->route('admin.dashboard');
             } elseif ($user->user_roles === 'Member') {
-                $members = Member::select('id', 'name', 'email', 'subclan', 'sub_subclan')->paginate(5);
-                return view('members.bruh', compact('members'));
+                $members = Member::select('id', 'name', 'email', 'subclan', 'sub_subclan')->paginate(10);
+                return redirect()->route('member.dashboard');
             }
         }
 

@@ -15,7 +15,7 @@ class MemberController extends Controller
         $members = Member::select('id', 'name', 'email', 'subclan', 'sub_subclan', )
         ->paginate(5);
     
-    return view('members.bruh', compact('members'))
+    return view('members.index', compact('members'))
          ->with('i', (request()->input('page', 1) - 1) * 5); 
     }
 
@@ -64,6 +64,6 @@ class MemberController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        
     }
 }

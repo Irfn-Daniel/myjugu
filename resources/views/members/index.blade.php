@@ -2,10 +2,15 @@
 
 @section('content')
     <div class="container">
+        @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{ session()->get('message') }}
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-12">
                 <h2>JUGU CLAN PROFILES</h2>
-                <a href=" {{-- {{ route('users.create') }} --}} " class="btn btn-primary mb-3">Add New Member</a>
+                <a href=" {{ route('admins.create') }} " class="btn btn-primary mb-3">Add New Member</a>
 
                 <table id="members" class="table">
                     <thead>
@@ -29,13 +34,13 @@
                                 <td>{{ $member->sub_subclan }}</td>
                                 <td>
                                     {{-- Add actions like view, edit, and delete --}}
-                                    <a href=" {{-- {{ route('admins.show', $member->id) }} --}} " class="btn btn-sm btn-primary">View</a>
-                                    {{-- <a href=" {{ route('admins.edit', $member->id) }} " class="btn btn-sm btn-warning">Edit</a> --}}
-                                    {{--  <form action=" {{ route('students.destroy', $student->id) }} " method="POST" style="display: inline;"> 
+                                    <a href=" {{ route('admins.show', $member->id) }} " class="btn btn-sm btn-primary">View</a>
+                                    <a href=" {{ route('admins.edit', $member->id) }} " class="btn btn-sm btn-warning">Edit</a>
+                                      <form action=" {{ route('admins.destroy', $member->id) }} " method="POST" style="display: inline;"> 
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                    </form> --}}
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -43,7 +48,7 @@
                 </table>
 
                 {{-- Add pagination links --}}
-                 {{ $members->links() }} 
+                {{ $members->links('pagination::bootstrap-4')}}
             </div>
         </div>
     </div>
