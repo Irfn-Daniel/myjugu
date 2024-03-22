@@ -75,7 +75,19 @@ div.content {
                 <a class="navbar-brand" href="#"><h2>JUGU Development Corporation Ltd (JDC)<h2></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
-                </button>             
+                </button>
+                <!-- Navbar items -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <!-- Left-aligned navbar links -->
+                  <ul class="navbar-nav mr-auto">
+                      <!-- Add your navbar links here -->
+                  </ul>
+                  <!-- Right-aligned logout button -->
+                  <form class="form-inline my-2 my-lg-0" action="{{ route('logout') }}" method="POST">
+                      @csrf
+                      <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
+                  </form>
+              </div>             
               </nav>
             </div>
         </div>

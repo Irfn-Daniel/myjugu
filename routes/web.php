@@ -33,12 +33,20 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 //Login
 Route::post('login', [AuthController::class, 'login']);
 
+//Logout
+Route::post('logout', [AuthController::class,'logout'])->name('logout');
+
 Route::get('regions', [AdminController::class, 'getRegions'])->name('get-regions');
 
 Route::get('clans', [AdminController::class, 'getClans'])->name('get-clans');
 
-Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-Route::get('/member/dashboard', [MemberController::class, 'index'])->name('member.dashboard');
+Route::middleware(['web', 'auth', 'prevent.cache'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/member/dashboard', [MemberController::class, 'index'])->name('member.dashboard');
+});
+
+// Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard')->middleware('auth');;
+// Route::get('/member/dashboard', [MemberController::class, 'index'])->name('member.dashboard')->middleware('auth');;
 
 
 

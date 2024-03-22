@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -35,5 +36,15 @@ class AuthController extends Controller
         // Authentication failed
         //return back()->withErrors(['email' => 'Invalid credentials']);
         return view('test');
+    }
+
+    public function logout(Request $request) {
+        // Logout the user
+        Auth::guard('')->logout();
+        Session::flush();
+        $request->session()->invalidate();
+        //$request->session()->regenerateToken();
+        // Redirect to the login page
+        return redirect()->route('login');
     }
 }
