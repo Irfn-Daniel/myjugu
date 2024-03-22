@@ -9,8 +9,8 @@
                 @if(session()->has('message'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session()->get('message') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-strong="Close"></button>
+                    </div>
                 @endif
 
                 <form action="{{ route('admins.update', $member->id) }}" method="POST">
@@ -18,148 +18,236 @@
                     @method('PUT')
 
                     <div class="form-group">
-                        <label for="name">Registration Date:</label>
-                        <input type="text" name="reg_date" class="form-control" value="{{ $member->reg_date }}">
+                        <strong for="name">Registration Date:</strong><span style="color:red;">*</span>
+                        <input type="date" name="reg_date" class="form-control" value="{{ $member->reg_date }}">
                     </div>
+                    
+                        <div class="form-group">
+                            <strong>Name:</strong><span style="color:red;">*</span>
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" name="name_first" value="{{ $member->name_first }}"  class="form-control" placeholder="First">
+                                   
+                                </div>
+                                <div class="col">
+                                    <input type="text" name="name_middle" value="{{ $member->name_middle }}"  class="form-control" placeholder="Middle">
+                                    
+                                </div>
+                                <div class="col">
+                                    <input type="text" name="name_last" value="{{ $member->name_last }}"  class="form-control" placeholder="Last">
+                                   
+                                </div>
+                            </div>
+                        </div>
+                   
                     <div class="form-group">
-                        <label for="address">First Name:</label>
-                        <input type="text" name="name_first" class="form-control" value="{{ $member->name_first }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">Middle Name:</label>
-                        <input type="text" name="name_middle" class="form-control" value="{{ $member->name_middle }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">Last Name:</label>
-                        <input type="text" name="name_last" class="form-control" value="{{ $member->name_last }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">NID Number:</label>
+                        <strong for="mobile">NID Number:</strong>
                         <input type="text" name="nid_number" class="form-control" value="{{ $member->nid_number }}">
                     </div>
                     <div class="form-group">
-                        <label for="mobile">Email:</label>
+                        <strong for="mobile">Email:</strong><span style="color:red;">*</span>
                         <input type="text" name="email" class="form-control" value="{{ $member->email }}">
                     </div>
                     <div class="form-group">
-                        <label for="mobile">Mobile Number:</label>
+                        <strong for="mobile">Mobile Number:</strong>
                         <input type="text" name="mobile_num" class="form-control" value="{{ $member->mobile_num }}">
                     </div>
                     <div class="form-group">
-                        <label for="mobile">Gender:</label>
+                        <strong for="mobile">Gender:</strong><span style="color:red;">*</span>
                         <input type="text" name="gender" class="form-control" value="{{ $member->gender }}">
                     </div>
                     <div class="form-group">
-                        <label for="mobile">Religion:</label>
+                        <strong for="mobile">Religion:</strong>
                         <input type="text" name="religion" class="form-control" value="{{ $member->religion }}">
                     </div>
-                    <div class="form-group">
-                        <label for="mobile">Date of Birth:</label>
-                        <input type="text" name="birth_date" class="form-control" value="{{ $member->birth_date }}">
+                    <div style="display: flex;">
+                        <div style="flex: 1; margin-right: 10px;">
+                            <div class="form-group">
+                                <strong>Date of Birth:</strong>
+                                <input type="date" name="birth_date" value="{{ $member->birth_date }}" class="form-control">
+                            </div>
+                        </div>
+                        <div style="flex: 1;">
+                            <div class="form-group">
+                                <strong>Date of Death:</strong>
+                                <input type="date" name="death_date" value="{{ $member->death_date }}" class="form-control">
+                            </div>
+                        </div>
+                   </div>       
+                   <div style="display: flex;">
+                    <div style="flex: 1; margin-right: 10px;">
+                        <div class="form-group">
+                            <strong>Education:</strong>
+                            <input type="text" name="education" value="{{ $member->education }}" class="form-control" placeholder="Education">
+                        </div>
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="form-group">
+                            <strong>Job Title:</strong>
+                            <input type="text" name="job_title" value="{{ $member->job_title }}" class="form-control" placeholder="Job Title">
+                        </div>
+                    </div>
                     </div>
                     <div class="form-group">
-                        <label for="mobile">Date of Death:</label>
-                        <input type="text" name="death_date" class="form-control" value="{{ $member->death_date }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">Education:</label>
-                        <input type="text" name="education" class="form-control" value="{{ $member->education }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">Job Title:</label>
-                        <input type="text" name="job_title" class="form-control" value="{{ $member->job_title }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">Employer:</label>
+                        <strong for="mobile">Employer:</strong>
                         <input type="text" name="employer" class="form-control" value="{{ $member->employer }}">
                     </div>
                     <div class="form-group">
-                        <label for="mobile">Postal Address:</label>
-                        <input type="text" name="postal_address" class="form-control" value="{{ $member->postal_address }}">
+                        <strong for="mobile">Postal Address:</strong>
+                        <textarea class="form-control" style="height:150px" name="postal_address" placeholder="Address">{{ $member->postal_address }}</textarea>
                     </div>
                     <div class="form-group">
-                        <label for="mobile">Residential Address:</label>
-                        <input type="text" name="residential_address" class="form-control" value="{{ $member->residential_address }}">
+                        <strong for="mobile">Residential Address:</strong><span style="color:red;">*</span>
+                        <textarea class="form-control" style="height:150px" name="residential_address" placeholder="Address">{{ $member->residential_address }}</textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <strong for="mobile">Province:</strong><span style="color:red;">*</span>
+                                <input type="text" name="province" class="form-control" value="{{ $member->province }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <strong for="mobile">District:</strong><span style="color:red;">*</span>
+                                <input type="text" name="district" class="form-control" value="{{ $member->district }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <strong for="mobile">LLG:</strong><span style="color:red;">*</span>
+                                <input type="text" name="llg" class="form-control" value="{{ $member->llg }}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <strong for="mobile">Council Ward:</strong><span style="color:red;">*</span>
+                                <input type="text" name="ward" class="form-control" value="{{ $member->ward }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <strong for="mobile">Village:</strong><span style="color:red;">*</span>
+                                <input type="text" name="village" class="form-control" value="{{ $member->village }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Father's name:</strong><span style="color:red;">*</span>
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" name="father_name_first" value="{{ $member->father_name_first }}" class="form-control" placeholder="First">
+                                   
+                                </div>
+                                <div class="col">
+                                    <input type="text" name="father_name_last" value="{{ $member->father_name_last }}" class="form-control" placeholder="Last">
+                                   
+                                </div>
+                            </div>                
+                        </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <strong>Mother's name:</strong><span style="color:red;">*</span>
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="text" name="mother_name_first" value="{{ $member->mother_name_first }}" class="form-control" placeholder="First">
+                                    
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" name="mother_name_last" value="{{ $member->mother_name_last }}" class="form-control" placeholder="Last">
+                                  
+                                    </div>
+                                </div>                
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="mobile">Province:</label>
-                        <input type="text" name="province" class="form-control" value="{{ $member->province }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">District:</label>
-                        <input type="text" name="district" class="form-control" value="{{ $member->district }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">LLG:</label>
-                        <input type="text" name="llg" class="form-control" value="{{ $member->llg }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">Council Ward:</label>
-                        <input type="text" name="ward" class="form-control" value="{{ $member->ward }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">Village:</label>
-                        <input type="text" name="village" class="form-control" value="{{ $member->village }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">Father's First Name:</label>
-                        <input type="text" name="father_name_first" class="form-control" value="{{ $member->father_name_first }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">Father's Last Name:</label>
-                        <input type="text" name="father_name_last" class="form-control" value="{{ $member->father_name_last }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">Mother's First Name:</label>
+                        <strong for="mobile">Mother's First Name:</strong>
                         <input type="text" name="mother_name_first" class="form-control" value="{{ $member->mother_name_first }}">
                     </div>
                     <div class="form-group">
-                        <label for="mobile">Mother's Last Name:</label>
+                        <strong for="mobile">Mother's Last Name:</strong>
                         <input type="text" name="mother_name_last" class="form-control" value="{{ $member->mother_name_last }}">
                     </div>
-                    <div class="form-group">
-                        <label for="mobile">Clan:</label>
-                        <input type="text" name="clan" class="form-control" value="{{ $member->clan }}">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <strong for="mobile">Clan:</strong><span style="color:red;">*</span>
+                                <input type="text" name="clan" class="form-control" value="{{ $member->clan }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <strong for="mobile">Subclan:</strong><span style="color:red;">*</span>
+                                <input type="text" name="subclan" class="form-control" value="{{ $member->subclan }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <strong for="mobile">Sub subclan:</strong><span style="color:red;">*</span>
+                                <input type="text" name="sub_subclan" class="form-control" value="{{ $member->sub_subclan }}">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="mobile">Subclan:</label>
-                        <input type="text" name="subclan" class="form-control" value="{{ $member->subclan }}">
+                    <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <strong>Bank Name:</strong>
+                            <input type="text" name="bank_name" value="{{ $member->bank_name }}" class="form-control" placeholder="Bank Name">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="mobile">Sub subclan:</label>
-                        <input type="text" name="sub_subclan" class="form-control" value="{{ $member->sub_subclan }}">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <strong>Account Name:</strong>
+                            <input type="text" name="account_name" value="{{ $member->account_name }}" class="form-control" placeholder="Account Name">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="mobile">Bank Name:</label>
-                        <input type="text" name="bank_name" class="form-control" value="{{ $member->bank_name }}">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <strong>Account Number:</strong>
+                            <input type="text" name="account_num" value="{{ $member->account_num }}" class="form-control" placeholder="Account Number">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="mobile">Account Name:</label>
-                        <input type="text" name="account_name" class="form-control" value="{{ $member->account_name }}">
                     </div>
-                    <div class="form-group">
-                        <label for="mobile">Account Number:</label>
-                        <input type="text" name="account_num" class="form-control" value="{{ $member->account_num }}">
+                    <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <strong>Relationship to the Jugu Clan:</strong>
+                            <input type="text" name="relationship" value="{{ $member->relationship }}" class="form-control" placeholder="Relationship">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="mobile">Relationship to the Jugu Clan:</label>
-                        <input type="text" name="relationship" class="form-control" value="{{ $member->relationship }}">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <strong>Recorder:</strong>
+                            <input type="text" name="recorder" value="{{ $member->recorder }}" class="form-control" placeholder="Recorder">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="mobile">Recorder:</label>
-                        <input type="text" name="recorder" class="form-control" value="{{ $member->recorder }}">
                     </div>
-                    <div class="form-group">
-                        <label for="mobile">Verified by:</label>
-                        <input type="text" name="verified" class="form-control" value="{{ $member->verified }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">Checked by:</label>
-                        <input type="text" name="checked" class="form-control" value="{{ $member->checked }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">Witnessed by:</label>
-                        <input type="text" name="witness" class="form-control" value="{{ $member->witness }}">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <strong>Verified by:</strong>
+                                <input type="text" name="verified" value="{{ $member->verified }}" class="form-control" placeholder="Verified by">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <strong>Checked by:</strong>
+                                <input type="text" name="checked" value="{{ $member->checked }}" class="form-control" placeholder="Checked by">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <strong>Witnessed by:</strong>
+                                <input type="text" name="witness" value="{{ $member->witness }}" class="form-control" placeholder="Witness">
+                            </div>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Update Member</button>
                 </form>
