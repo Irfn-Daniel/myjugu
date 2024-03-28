@@ -36,6 +36,7 @@ body, html {
       JUGU DEVELOPMENT CORPORATION LTD</a>
     <!-- Right-sided navbar links -->
     <div class="w3-right w3-hide-small">
+      <a href= " {{ route('register') }} " class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> Register</a>
       <a href= "{{ route('login', ['user_type' => 'member']) }}" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> Log in as Member</a>
       <a href="{{ route('login', ['user_type' => 'admin']) }}" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> Log in as Admin</a>
     </div>

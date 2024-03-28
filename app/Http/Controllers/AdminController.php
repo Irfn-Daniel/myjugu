@@ -6,13 +6,14 @@ use App\Models\LLG;
 use App\Models\Clan;
 use App\Models\Ward;
 use App\Models\Member;
+use App\Models\Subclan;
 use App\Models\Village;
 use App\Models\District;
 use App\Models\Province;
-use App\Models\Sub_subclan;
-use App\Models\Subclan;
 use Illuminate\View\View;
+use App\Models\Sub_subclan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 
 class AdminController extends Controller
@@ -42,16 +43,16 @@ class AdminController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $member = new Member;
-        //dd($request->all());
+        
         $request->validate([
             'reg_date' => 'required|date',
             'name_first' => 'required|string',
-            // 'name_middle' => 'required|string',
+            'name_middle' => 'required|string',
             'name_last' => 'required|string',
             'nid_number' => 'nullable|string',
             'email' => 'required|email',
-            // 'password' => 'required|min:3', 
-            // 'confirm_password' => 'required|same:password',  
+            'password' => 'required|min:3', 
+            'confirm_password' => 'required|same:password',  
             'mobile_num' => 'nullable|string',
             'gender' => 'required|in:male,female,other',
             'religion' => 'nullable|string',
@@ -78,7 +79,7 @@ class AdminController extends Controller
             'account_name' => 'nullable|string',
             'account_num' => 'nullable|string',
             'relationship' => 'nullable|string',
-            // 'jugu_terms' => 'nullable|in:Yes,No',
+            'jugu_terms' => 'nullable|in:Yes,No',
             'recorder' => 'nullable|string',
             'verified' => 'nullable|string',
             'checked' => 'nullable|string',
@@ -92,11 +93,16 @@ class AdminController extends Controller
             // 'user_roles' => 'nullable|string',
             // 'user_status' => 'nullable|string',
         ]);
+
+        // Hash the password before storing it
+        $hashedPassword = Hash::make($request->password);
+        
         $member->reg_date = $request->reg_date;
         $member->name_first = $request->name_first;
         $member->name_last = $request->name_last;
         $member->nid_number = $request->nid_number;
         $member->email = $request->email;
+        $member->password = $hashedPassword;
         $member->mobile_num = $request->mobile_num;
         $member->gender = $request->gender;
         $member->religion = $request->religion;

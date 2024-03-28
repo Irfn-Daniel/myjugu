@@ -27,6 +27,9 @@ Route::resource('admins', AdminController::class);
 //Users
 Route::resource('users', MemberController::class);
 
+//Show register form
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+
 //Show login form
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 
